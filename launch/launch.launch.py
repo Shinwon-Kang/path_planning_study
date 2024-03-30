@@ -16,6 +16,8 @@
 #
 # Authors: Joep Tool
 
+# ros2 launch nav2_bringup tb3_simulation_launch.py headless:=False
+
 import os
 
 from ament_index_python.packages import get_package_share_directory
@@ -69,6 +71,13 @@ def generate_launch_description():
         }.items()
     )
 
+    rviz_cmd = Node(
+        package='rviz2',
+        executable='rviz2',
+        output='screen',
+        arguments=['-d', 'rviz/rviz.rviz'],
+    )
+
     ld = LaunchDescription()
 
     # Add the commands to the launch description
@@ -76,5 +85,6 @@ def generate_launch_description():
     ld.add_action(gzclient_cmd)
     ld.add_action(robot_state_publisher_cmd)
     ld.add_action(spawn_turtlebot_cmd)
+    ld.add_action(rviz_cmd)
 
     return ld
